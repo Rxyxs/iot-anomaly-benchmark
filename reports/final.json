@@ -1,0 +1,30 @@
+{
+  "profiles": {
+    "standard": {
+      "score": 49.468408532603846,
+      "threshold": 0.7533121557225233,
+      "raw": -1.2332922043590808,
+      "windows": 116
+    },
+    "reward_low_FP_rate": {
+      "score": 36.3857904180238,
+      "threshold": 0.7533121557225233,
+      "raw": -31.584966230184776,
+      "windows": 116
+    },
+    "reward_low_FN_rate": {
+      "score": 56.95697965626941,
+      "threshold": 0.5406856121198502,
+      "raw": -33.789710796182455,
+      "windows": 116
+    }
+  },
+  "by_category": {
+    "artificialWithAnomaly": 91.06335779162919,
+    "realAWSCloudwatch": 55.763791840538474,
+    "realAdExchange": 46.668013238067466,
+    "realKnownCause": 27.123558418776952,
+    "realTraffic": 58.911016436978606,
+    "realTweets": 68.4906702894355
+  }
+}

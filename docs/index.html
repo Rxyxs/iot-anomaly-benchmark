@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Streaming Anomaly Benchmark</title>
+<meta name="description" content="A validated reimplementation of the Numenta Anomaly Benchmark score, simple online detectors, and an honest cross-validated result.">
+<style>
+  :root {
+    --bg: #FBFAF8; --surface: #FFFFFF; --ink: #23201D; --muted: #6B645D;
+    --line: #E3DED7; --accent: #3E8E7E; --good: #4C7A3E;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151719; --surface: #1D2023; --ink: #E9EBED; --muted: #A2A8AE;
+      --line: #2E3236; --accent: #6CC2AF; --good: #7FAE6B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #151719; --surface: #1D2023; --ink: #E9EBED; --muted: #A2A8AE;
+    --line: #2E3236; --accent: #6CC2AF; --good: #7FAE6B;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px 96px; }
+  header { padding: 72px 0 40px; border-bottom: 1px solid var(--line); margin-bottom: 44px; }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); line-height: 1.15; margin: 0 0 18px; letter-spacing: -0.02em; }
+  .lede { font-size: clamp(1.02rem, 2.4vw, 1.17rem); color: var(--muted); margin: 0 0 24px; max-width: 64ch; }
+  .lede strong { color: var(--ink); }
+  .links a {
+    display: inline-block; margin: 0 10px 10px 0; padding: 9px 15px;
+    border: 1px solid var(--line); border-radius: 7px; text-decoration: none;
+    color: var(--ink); background: var(--surface); font-size: 0.9rem; transition: border-color .15s;
+  }
+  .links a:hover { border-color: var(--accent); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 28px 0 0; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 14px 16px; }
+  .stat b { display: block; font-size: 1.6rem; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .stat span { color: var(--muted); font-size: 0.85rem; }
+  h2 { font-size: 1.42rem; margin: 56px 0 8px; letter-spacing: -0.01em; padding-top: 10px; border-top: 1px solid var(--line); }
+  h2 .num { color: var(--accent); font-variant-numeric: tabular-nums; margin-right: 8px; }
+  p, li { max-width: 72ch; }
+  p { margin: 0 0 16px; }
+  figure { margin: 26px 0; }
+  figure img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+  figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 9px; max-width: 72ch; }
+  .tablewrap { overflow-x: auto; margin: 22px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; min-width: 460px; }
+  th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+  th:first-child, td:first-child { text-align: left; }
+  thead th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: .04em; }
+  .win td { color: var(--good); font-weight: 600; }
+  code { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; font-size: 0.88em; }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>What moves a streaming anomaly-detection score?</h1>
+  <p class="lede">58 real and artificial sensor and server series from the Numenta Anomaly Benchmark, scored with a rule built for monitoring: detect online, detect early, and pay for every false alarm. A validated scorer, simple detectors, and <strong>an honest number</strong>.</p>
+  <div class="links">
+    <a href="https://github.com/Rxyxs/iot-anomaly-benchmark">Code on GitHub</a>
+    <a href="https://github.com/numenta/NAB">NAB</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>9 / 9</b><span>published NAB results reproduced exactly by the scorer</span></div>
+    <div class="stat"><b>2.4 &rarr; 41.0</b><span>seasonal detector once it reports only onsets</span></div>
+    <div class="stat"><b>42.4</b><span>cross-validated score (49.5 tuned in-sample)</span></div>
+    <div class="stat"><b>27.1</b><span>on the known-cause series, the weakest category</span></div>
+  </div>
+</header>
+
+<h2><span class="num">01</span>Where it lands</h2>
+<figure>
+  <img src="img/leaderboard.png" alt="Horizontal bar chart of NAB standard scores: published detectors from expose 16.4 to ARTime 74.9, with this repo at 49.5 in-sample and 42.4 cross-validated, both above windowedGaussian 39.6.">
+  <figcaption>Published detectors (grey) and this repo (red). The cross-validated score chooses settings and threshold without the data it scores; most published numbers do not.</figcaption>
+</figure>
+
+<h2><span class="num">02</span>Reporting onsets, not the detector, makes the difference</h2>
+<figure>
+  <img src="img/onset.png" alt="Paired bars per detector, score every row versus report only the onset: Gaussian 36.4 to 42.6, seasonal 2.4 to 41.0, robust diff 0 to 23.6, KS shift 1.9 to 8.5.">
+  <figcaption>NAB charges every flagged row outside a window. Reporting only the start of each excursion, without look-ahead, turns useless detectors into competitive ones.</figcaption>
+</figure>
+
+<h2><span class="num">03</span>One threshold does not fit every machine</h2>
+<figure>
+  <img src="img/machine.png" alt="Machine temperature series with four labelled anomaly windows and the detector score below; the score rises inside three windows to about 0.4-0.6, but the corpus threshold of 0.753 is above every value.">
+  <figcaption>The detector reacts inside three of four windows on a real industrial failure, but the single corpus-wide threshold is set by the other 57 series and flags nothing here.</figcaption>
+</figure>
+
+<footer>
+  Pablo Reyes · Data: Numenta Anomaly Benchmark (Lavin &amp; Ahmad 2015), via Kaggle and GitHub, not redistributed. Code under MIT.
+</footer>
+</div>
+</body>
+</html>

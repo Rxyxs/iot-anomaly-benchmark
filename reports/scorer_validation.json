@@ -1,0 +1,53 @@
+{
+  "windowedGaussian": {
+    "standard": {
+      "published": 39.65,
+      "mine_at_stored_threshold": 39.65,
+      "mine_best_threshold": 39.65
+    },
+    "reward_low_FP_rate": {
+      "published": 20.868,
+      "mine_at_stored_threshold": 20.868,
+      "mine_best_threshold": 20.868
+    },
+    "reward_low_FN_rate": {
+      "published": 47.41,
+      "mine_at_stored_threshold": 47.41,
+      "mine_best_threshold": 47.41
+    }
+  },
+  "numenta": {
+    "standard": {
+      "published": 70.101,
+      "mine_at_stored_threshold": 70.101,
+      "mine_best_threshold": 70.101
+    },
+    "reward_low_FP_rate": {
+      "published": 63.117,
+      "mine_at_stored_threshold": 63.117,
+      "mine_best_threshold": 63.209
+    },
+    "reward_low_FN_rate": {
+      "published": 74.32,
+      "mine_at_stored_threshold": 74.32,
+      "mine_best_threshold": 74.32
+    }
+  },
+  "random": {
+    "standard": {
+      "published": 16.832,
+      "mine_at_stored_threshold": 16.832,
+      "mine_best_threshold": 17.655
+    },
+    "reward_low_FP_rate": {
+      "published": 5.764,
+      "mine_at_stored_threshold": 5.764,
+      "mine_best_threshold": 7.48
+    },
+    "reward_low_FN_rate": {
+      "published": 25.876,
+      "mine_at_stored_threshold": 25.876,
+      "mine_best_threshold": 27.575
+    }
+  }
+}

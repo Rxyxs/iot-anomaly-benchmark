@@ -1,0 +1,353 @@
+{
+  "detectors": {
+    "gaussian": {
+      "standard": {
+        "score": 36.43006491020244,
+        "threshold": 0.7647300881647147,
+        "raw": -31.48224940833033,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 22.61858956037183,
+        "threshold": 0.826869741182262,
+        "raw": -63.52487221993735,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 44.034777717093114,
+        "threshold": 0.7533121557225233,
+        "raw": -78.758973544516,
+        "windows": 116
+      }
+    },
+    "gaussian + onset": {
+      "standard": {
+        "score": 42.62254607627459,
+        "threshold": 0.7533121557225233,
+        "raw": -17.115693103042965,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 32.148381758614605,
+        "threshold": 0.7656308490461119,
+        "raw": -41.415754320014116,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 50.84843990833584,
+        "threshold": 0.5310439897920036,
+        "raw": -55.04742911899127,
+        "windows": 116
+      }
+    },
+    "gaussian + likelihood": {
+      "standard": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 0.5303516463311782,
+        "threshold": 0.8703331831175091,
+        "raw": -230.1543762707675,
+        "windows": 116
+      }
+    },
+    "gaussian + likelihood + onset": {
+      "standard": {
+        "score": 29.18612702776481,
+        "threshold": 0.7454042545783826,
+        "raw": -48.288185295585635,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 17.35141971519792,
+        "threshold": 0.8279425665516819,
+        "raw": -75.74470626074083,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 36.69879732885385,
+        "threshold": 0.7454042545783826,
+        "raw": -104.2881852955886,
+        "windows": 116
+      }
+    },
+    "robust_diff": {
+      "standard": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -232.0,
+        "windows": 116
+      }
+    },
+    "robust_diff + onset": {
+      "standard": {
+        "score": 23.584786329416936,
+        "threshold": 0.9982442888165316,
+        "raw": -61.283295715752715,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 10.790937259284709,
+        "threshold": 0.9997505460773946,
+        "raw": -90.96502555845947,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 36.23962670472548,
+        "threshold": 0.7060458467676811,
+        "raw": -105.88609906755534,
+        "windows": 116
+      }
+    },
+    "robust_diff + likelihood": {
+      "standard": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 5.42690909886492,
+        "threshold": 0.7063432193706382,
+        "raw": -213.11435633595008,
+        "windows": 116
+      }
+    },
+    "robust_diff + likelihood + onset": {
+      "standard": {
+        "score": 28.970806519606125,
+        "threshold": 0.6908893678152601,
+        "raw": -48.78772887451379,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 15.761869007661677,
+        "threshold": 0.8011448105429572,
+        "raw": -79.43246390222491,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 39.66190842676158,
+        "threshold": 0.6455593814003309,
+        "raw": -93.97655867486968,
+        "windows": 116
+      }
+    },
+    "seasonal": {
+      "standard": {
+        "score": 2.3797977251313687,
+        "threshold": 0.9999999931279897,
+        "raw": -110.47886927769522,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 5.517575976140168,
+        "threshold": 0.9999998242677755,
+        "raw": -212.79883560303222,
+        "windows": 116
+      }
+    },
+    "seasonal + onset": {
+      "standard": {
+        "score": 40.9555763988406,
+        "threshold": 0.7533121557225233,
+        "raw": -20.983062754689826,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 15.655822999428745,
+        "threshold": 0.8046536253404779,
+        "raw": -79.67849064132531,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 51.44164863370868,
+        "threshold": 0.7533121557225233,
+        "raw": -52.98306275469378,
+        "windows": 116
+      }
+    },
+    "seasonal + likelihood": {
+      "standard": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 3.694300136050396,
+        "threshold": 0.8527690091553068,
+        "raw": -219.14383552654462,
+        "windows": 116
+      }
+    },
+    "seasonal + likelihood + onset": {
+      "standard": {
+        "score": 27.671720380183228,
+        "threshold": 0.7705375160652472,
+        "raw": -51.80160871797492,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 17.92961242952915,
+        "threshold": 0.8527690091553068,
+        "raw": -74.40329916349238,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 36.614541638518,
+        "threshold": 0.7178389216071036,
+        "raw": -104.58139509795738,
+        "windows": 116
+      }
+    },
+    "ks_shift": {
+      "standard": {
+        "score": 1.917100849522615,
+        "threshold": 1.0,
+        "raw": -111.55232602910753,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 0.0,
+        "threshold": 1.1,
+        "raw": -116.0,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 5.013699416922661,
+        "threshold": 1.0,
+        "raw": -214.55232602910914,
+        "windows": 116
+      }
+    },
+    "ks_shift + onset": {
+      "standard": {
+        "score": 8.51769679287643,
+        "threshold": 1.0,
+        "raw": -96.23894344052668,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 6.895770469382532,
+        "threshold": 1.0,
+        "raw": -100.00181251103253,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 10.38817588855971,
+        "threshold": 0.9566666666666667,
+        "raw": -195.8491479078122,
+        "windows": 116
+      }
+    },
+    "ks_shift + likelihood": {
+      "standard": {
+        "score": 4.7825487300787115,
+        "threshold": 0.869318931444282,
+        "raw": -104.90448694621739,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 0.3746113728371345,
+        "threshold": 0.869318931444282,
+        "raw": -115.13090161501785,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 7.360796507144739,
+        "threshold": 0.8394154798350498,
+        "raw": -206.3844281551363,
+        "windows": 116
+      }
+    },
+    "ks_shift + likelihood + onset": {
+      "standard": {
+        "score": 13.705172027462273,
+        "threshold": 0.7072632070915391,
+        "raw": -84.20400089628752,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 8.354907084478459,
+        "threshold": 0.8103243396002248,
+        "raw": -96.61661556400998,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 21.725418773135253,
+        "threshold": 0.6952307671573488,
+        "raw": -156.39554266948932,
+        "windows": 116
+      }
+    },
+    "ensemble (mean likelihood) + onset": {
+      "standard": {
+        "score": 31.54905129895918,
+        "threshold": 0.6908017530984989,
+        "raw": -42.80620098641469,
+        "windows": 116
+      },
+      "reward_low_FP_rate": {
+        "score": 21.532917506503555,
+        "threshold": 0.7610064115070705,
+        "raw": -66.04363138491175,
+        "windows": 116
+      },
+      "reward_low_FN_rate": {
+        "score": 39.83605249049836,
+        "threshold": 0.6695782631164278,
+        "raw": -93.3705373330657,
+        "windows": 116
+      }
+    }
+  },
+  "best": "gaussian + onset",
+  "by_category": {
+    "artificialWithAnomaly": 24.480690682247754,
+    "realAWSCloudwatch": 54.91930046436509,
+    "realAdExchange": 37.279902504447435,
+    "realKnownCause": 31.0994607204188,
+    "realTraffic": 66.2961781795803,
+    "realTweets": 65.26850463572386
+  }
+}

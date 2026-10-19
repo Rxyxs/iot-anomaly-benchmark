@@ -1,4 +1,4 @@
-[English](README.md) | **Español**
+[[English](README.md) ] | [Español ]
 
 # Detección de anomalías en streaming sobre el Numenta Anomaly Benchmark
 

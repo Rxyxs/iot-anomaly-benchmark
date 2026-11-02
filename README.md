@@ -16,8 +16,9 @@ simple online detectors to find out what actually moves the score.
 
 | | NAB standard score |
 |---|---|
-| **Seasonal residual + onset reporting, cross-validated** | **42.4** |
-| Same detector, settings and threshold chosen on the whole corpus (the NAB convention) | 49.5 |
+| **Gaussian + per-series calibration + onset reporting, cross-validated** | **45.3** |
+| Seasonal residual + onset reporting, cross-validated | 42.4 |
+| Seasonal residual, settings and threshold chosen on the whole corpus (the NAB convention) | 49.5 |
 | Published `windowedGaussian` baseline | 39.6 |
 | Published Numenta HTM / best published (ARTime) | 70.1 / 74.9 |
 
@@ -74,6 +75,33 @@ A "likelihood" post-processing step (scoring how unusual a raw score is against 
 in the spirit of Numenta's anomaly likelihood) was tested and lowered every detector here; it is
 kept in the code for completeness.
 
+### 5. A per-series threshold, tested
+
+![Calibration](docs/img/calibration.png)
+
+The machine example suggests each asset needs its own cut-off. NAB allows only one threshold, but a
+detector can calibrate itself: `detectors.calibrate` replaces each score by its percentile among the
+scores that same series has produced so far (no look-ahead), so the corpus threshold means "the most
+unusual reading this asset has shown" on every series. Scored the same way as above:
+
+| Detector, with onset reporting | In-sample | Cross-validated | Known-cause |
+|---|---|---|---|
+| Gaussian | 44.6 | 30.4 | 29.3 |
+| **Gaussian + per-series calibration** | 46.2 | **45.3** | **49.7** |
+| Seasonal | 49.5 | 42.4 | 27.1 |
+| Seasonal + per-series calibration | 49.1 | 37.4 | 34.8 |
+
+Calibration rescues the Gaussian detector: cross-validated score up 15 points, the same k = 400
+picked in all seven folds, and almost no gap between in-sample and cross-validated, which makes it
+the best honest number here. The known-cause category goes from 29 to 50. It hurts the seasonal
+detector (42.4 to 37.4), whose residual is already scaled by each series' own MAD: ranking it again
+adds nothing except more false alarms on the artificial series (91 to 78).
+
+It does not rescue the machine-temperature series itself: the calibrated detectors catch one of
+four windows there, with 21 to 27 false alarms. Calibration fixes the *scale* problem across
+assets; it cannot fix a detector whose scores in normal periods look like its scores before a
+failure.
+
 ## Method
 
 ```
@@ -85,7 +113,8 @@ kept in the code for completeness.
    │                 seasonal residual vs the same phase of past days/weeks, KS distribution shift,
    │                 likelihood post-processing, onset reporting
    ├── run.py        every detector x post-processing on the corpus
-   └── crossval.py   leave-one-category-out choice of k and threshold
+   ├── crossval.py   leave-one-category-out choice of k and threshold
+   └── calibration.py  corpus threshold vs per-series calibration, in-sample and cross-validated
 ```
 
 ## Data
@@ -106,6 +135,7 @@ python -m nabscore.labels       # windows, profiles and published results from G
 python -m nabscore.validate     # scorer vs published results
 python -m nabscore.run          # ~4 min the first time (raw scores are cached)
 python -m nabscore.crossval
+python -m nabscore.calibration
 python -m nabscore.figures
 pytest -q tests
 ```

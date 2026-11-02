@@ -103,3 +103,24 @@ def onset(score: np.ndarray, k: int = 100) -> np.ndarray:
 def squash(raw: np.ndarray) -> np.ndarray:
     """Map a non-negative raw score to [0, 1) without per-series calibration."""
     return 1 - np.exp(-np.asarray(raw, dtype=float) / 5.0)
+
+
+def calibrate(score: np.ndarray, burn_in: int = 100) -> np.ndarray:
+    """Per-series threshold: the percentile of each score among the series' own past scores.
+
+    NAB applies one threshold to all 58 series, so a score of 0.5 must mean the same on a
+    noisy CPU trace and on a quiet machine temperature. Ranking each score against what
+    the same series has produced so far (no look-ahead) turns the single corpus threshold
+    into a different raw cut-off per series: "the most unusual reading this asset has
+    shown". New maxima land just under 1, closer to it the longer the history.
+    """
+    import bisect
+    s = np.asarray(score, dtype=float)
+    out = np.zeros(len(s))
+    past: list[float] = []
+    for t, v in enumerate(s):
+        n = len(past)
+        if n >= burn_in:
+            out[t] = (bisect.bisect_left(past, v) + 0.5 * (bisect.bisect_right(past, v) - bisect.bisect_left(past, v))) / (n + 1)
+        bisect.insort(past, v)
+    return out

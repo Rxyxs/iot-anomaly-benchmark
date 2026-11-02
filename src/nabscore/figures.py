@@ -44,6 +44,9 @@ def main() -> None:
     board = {k: v["standard"] for k, v in pub.items() if k != "null"}
     board["this repo: seasonal + onset\n(in-sample, like NAB)"] = summary["standard"]["score"]
     board["this repo: seasonal + onset\n(cross-validated)"] = cv["seasonal"]["cross_validated"]
+    cal = json.loads(Path("reports/calibration.json").read_text())
+    board["this repo: Gaussian + per-series\ncalibration + onset (cross-validated)"] = \
+        cal["gaussian + per-series calibration + onset"]["cross_validated"]
     items = sorted(board.items(), key=lambda kv: kv[1])
     fig, ax = plt.subplots(figsize=(8, 6))
     colors = ["#E15759" if "this repo" in k else "#BAB0AC" for k, _ in items]
@@ -55,6 +58,29 @@ def main() -> None:
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     fig.savefig(OUT / "leaderboard.png", dpi=130)
+    plt.close(fig)
+
+    # 1b. Per-series calibration: in-sample vs cross-validated, and the known-cause category
+    names = ["gaussian + onset", "gaussian + per-series calibration + onset",
+             "seasonal + onset", "seasonal + per-series calibration + onset"]
+    labels = ["Gaussian", "Gaussian\n+ calibration", "Seasonal", "Seasonal\n+ calibration"]
+    series = [("in-sample", [cal[n]["best_in_sample"] for n in names], "#BAB0AC"),
+              ("cross-validated", [cal[n]["cross_validated"] for n in names], "#E15759"),
+              ("known-cause category", [cal[n]["by_category"]["realKnownCause"] for n in names], "#4E79A7")]
+    fig, ax = plt.subplots(figsize=(8, 4.2))
+    x = np.arange(len(names))
+    for j, (lab, vals, col) in enumerate(series):
+        ax.bar(x + (j - 1) * 0.27, vals, 0.27, label=lab, color=col)
+        for i, v in enumerate(vals):
+            ax.text(x[i] + (j - 1) * 0.27, v + 0.8, f"{v:.0f}", ha="center", fontsize=8)
+    ax.set_xticks(x, labels)
+    ax.set_ylabel("NAB score, standard profile")
+    ax.set_title("Ranking each score against its own series' history (all with onset reporting)")
+    ax.set_ylim(0, 60)
+    ax.legend(frameon=False, fontsize=8, loc="upper center", ncol=3)
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(OUT / "calibration.png", dpi=130)
     plt.close(fig)
 
     # 2. Onset effect, in-sample at k = 100 vs without

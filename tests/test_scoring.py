@@ -60,3 +60,16 @@ def test_onset_only_looks_back():
     s2 = s.copy()
     s2[-1] = 0.0
     assert onset(s2, k=3)[:-1].tolist() == out[:-1].tolist()
+
+
+def test_calibrate_uses_only_the_past_and_ranks_per_series():
+    from nabscore.detectors import calibrate
+    rng = np.random.default_rng(0)
+    quiet, noisy = rng.normal(0, 1, 500), rng.normal(0, 50, 500)
+    quiet[400] = noisy[400] = 60.0    # 60 sigma for the quiet series, about one for the noisy one
+    cq, cn = calibrate(np.abs(quiet)), calibrate(np.abs(noisy))
+    assert (cq[:100] == 0).all()                        # burn-in
+    assert cq[400] > 0.99 and cn[400] < 0.9
+    changed = np.abs(quiet).copy()
+    changed[450:] = 1e6                                 # the future does not move earlier values
+    assert np.array_equal(calibrate(changed)[:450], cq[:450])

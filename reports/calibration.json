@@ -1,0 +1,126 @@
+{
+  "gaussian + onset": {
+    "in_sample_by_k": {
+      "25": 41.65064972154059,
+      "50": 42.050846619954505,
+      "100": 42.62254607627459,
+      "200": 41.68844649020584,
+      "400": 44.05745628392048,
+      "800": 44.5517416864665
+    },
+    "best_in_sample": 44.5517416864665,
+    "k_in_sample": 800,
+    "threshold": 0.5302909756287224,
+    "cross_validated": 30.37044348298666,
+    "k_picked": {
+      "artificialNoAnomaly": 800,
+      "artificialWithAnomaly": 800,
+      "realAWSCloudwatch": 100,
+      "realAdExchange": 800,
+      "realKnownCause": 100,
+      "realTraffic": 800,
+      "realTweets": 100
+    },
+    "by_category": {
+      "artificialWithAnomaly": 11.834395761603878,
+      "realAWSCloudwatch": 56.87297109752733,
+      "realAdExchange": 39.125716179287416,
+      "realKnownCause": 29.2830749945245,
+      "realTraffic": 46.35094582744572,
+      "realTweets": 62.255128189577896
+    }
+  },
+  "gaussian + per-series calibration + onset": {
+    "in_sample_by_k": {
+      "25": 43.83706832806328,
+      "50": 44.30298539010106,
+      "100": 44.49264056251484,
+      "200": 44.90623734090033,
+      "400": 46.168497633678335,
+      "800": 43.494305769178176
+    },
+    "best_in_sample": 46.168497633678335,
+    "k_in_sample": 400,
+    "threshold": 0.9986631016042781,
+    "cross_validated": 45.29027636083591,
+    "k_picked": {
+      "artificialNoAnomaly": 400,
+      "artificialWithAnomaly": 400,
+      "realAWSCloudwatch": 400,
+      "realAdExchange": 400,
+      "realKnownCause": 400,
+      "realTraffic": 400,
+      "realTweets": 400
+    },
+    "by_category": {
+      "artificialWithAnomaly": 30.787776326889244,
+      "realAWSCloudwatch": 51.149356817337505,
+      "realAdExchange": 41.768341152812205,
+      "realKnownCause": 49.71320208412549,
+      "realTraffic": 45.20282466239416,
+      "realTweets": 59.65877227128396
+    }
+  },
+  "seasonal + onset": {
+    "in_sample_by_k": {
+      "25": 20.179031378345943,
+      "50": 31.18039059389714,
+      "100": 40.9555763988406,
+      "200": 46.068570076754725,
+      "400": 49.468408532603846,
+      "800": 47.840983924310315
+    },
+    "best_in_sample": 49.468408532603846,
+    "k_in_sample": 400,
+    "threshold": 0.7533121557225233,
+    "cross_validated": 42.40468006267225,
+    "k_picked": {
+      "artificialNoAnomaly": 400,
+      "artificialWithAnomaly": 400,
+      "realAWSCloudwatch": 400,
+      "realAdExchange": 400,
+      "realKnownCause": 400,
+      "realTraffic": 400,
+      "realTweets": 400
+    },
+    "by_category": {
+      "artificialWithAnomaly": 91.06335779162919,
+      "realAWSCloudwatch": 55.763791840538474,
+      "realAdExchange": 46.668013238067466,
+      "realKnownCause": 27.123558418776952,
+      "realTraffic": 58.911016436978606,
+      "realTweets": 68.4906702894355
+    }
+  },
+  "seasonal + per-series calibration + onset": {
+    "in_sample_by_k": {
+      "25": 47.281591565806124,
+      "50": 47.47124673821991,
+      "100": 47.61348811753025,
+      "200": 47.93225730970883,
+      "400": 49.101025073743784,
+      "800": 47.69006370508132
+    },
+    "best_in_sample": 49.101025073743784,
+    "k_in_sample": 400,
+    "threshold": 0.9968553459119497,
+    "cross_validated": 37.43455605162214,
+    "k_picked": {
+      "artificialNoAnomaly": 400,
+      "artificialWithAnomaly": 400,
+      "realAWSCloudwatch": 400,
+      "realAdExchange": 400,
+      "realKnownCause": 400,
+      "realTraffic": 200,
+      "realTweets": 200
+    },
+    "by_category": {
+      "artificialWithAnomaly": 78.44012323726062,
+      "realAWSCloudwatch": 52.99858059181509,
+      "realAdExchange": 38.54186887550794,
+      "realKnownCause": 34.800693249196264,
+      "realTraffic": 49.9706940471076,
+      "realTweets": 74.25345818363789
+    }
+  }
+}

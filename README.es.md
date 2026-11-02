@@ -17,8 +17,9 @@ mueve el puntaje.
 
 | | Puntaje NAB estándar |
 |---|---|
-| **Residuo estacional + reporte de inicio, con validación cruzada** | **42,4** |
-| Mismo detector, con parámetros y umbral elegidos sobre todo el corpus (la convención de NAB) | 49,5 |
+| **Gaussiano + calibración por serie + reporte de inicio, con validación cruzada** | **45,3** |
+| Residuo estacional + reporte de inicio, con validación cruzada | 42,4 |
+| Residuo estacional, con parámetros y umbral elegidos sobre todo el corpus (la convención de NAB) | 49,5 |
 | Baseline publicado `windowedGaussian` | 39,6 |
 | Numenta HTM publicado / mejor publicado (ARTime) | 70,1 / 74,9 |
 
@@ -78,6 +79,34 @@ Se probó un post-proceso de "verosimilitud" (medir qué tan inusual es un punta
 propia historia, en la línea del anomaly likelihood de Numenta) y empeoró todos los detectores aquí;
 queda en el código por completitud.
 
+### 5. Un umbral por serie, puesto a prueba
+
+![Calibración](docs/img/calibration.png)
+
+El ejemplo de la máquina sugiere que cada equipo necesita su propio corte. NAB permite un solo
+umbral, pero un detector puede calibrarse solo: `detectors.calibrate` reemplaza cada puntaje por su
+percentil entre los puntajes que esa misma serie ha producido hasta ese momento (sin mirar el
+futuro), así que el umbral del corpus significa en cada serie "la lectura más inusual que ha mostrado
+este equipo". Evaluado igual que antes:
+
+| Detector, con reporte de inicio | Dentro de muestra | Validación cruzada | Causa conocida |
+|---|---|---|---|
+| Gaussiano | 44,6 | 30,4 | 29,3 |
+| **Gaussiano + calibración por serie** | 46,2 | **45,3** | **49,7** |
+| Estacional | 49,5 | 42,4 | 27,1 |
+| Estacional + calibración por serie | 49,1 | 37,4 | 34,8 |
+
+La calibración rescata al detector gaussiano: sube 15 puntos con validación cruzada, elige el mismo
+k = 400 en los siete pliegues y casi no hay brecha entre dentro de muestra y validación cruzada, lo
+que lo deja como el mejor número honesto del repositorio. La categoría de causa conocida pasa de 29 a
+50. Al detector estacional lo empeora (42,4 a 37,4): su residuo ya viene escalado por la MAD de cada
+serie, y volver a rankearlo solo agrega falsas alarmas en las series artificiales (91 a 78).
+
+Tampoco rescata la serie de temperatura de la máquina: ahí los detectores calibrados detectan una de
+cuatro ventanas, con 21 a 27 falsas alarmas. La calibración arregla el problema de *escala* entre
+equipos; no arregla un detector cuyos puntajes en períodos normales se parecen a los de antes de una
+falla.
+
 ## Método
 
 ```
@@ -89,7 +118,8 @@ queda en el código por completitud.
    │                 residuo estacional contra la misma fase de días/semanas anteriores, cambio de
    │                 distribución KS, post-proceso de verosimilitud, reporte de inicio
    ├── run.py        cada detector x post-proceso sobre el corpus
-   └── crossval.py   elección de k y umbral dejando una categoría fuera
+   ├── crossval.py   elección de k y umbral dejando una categoría fuera
+   └── calibration.py  umbral del corpus vs calibración por serie, dentro de muestra y con validación cruzada
 ```
 
 ## Datos
@@ -110,6 +140,7 @@ python -m nabscore.labels       # ventanas, perfiles y resultados publicados des
 python -m nabscore.validate     # scorer contra los resultados publicados
 python -m nabscore.run          # ~4 min la primera vez (los puntajes brutos quedan en caché)
 python -m nabscore.crossval
+python -m nabscore.calibration
 python -m nabscore.figures
 pytest -q tests
 ```

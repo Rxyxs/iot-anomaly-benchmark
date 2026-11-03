@@ -33,20 +33,20 @@ def candidates(raw):
     }
 
 
-def cross_validated(corpus, windows, per_k):
+def cross_validated(corpus, windows, per_k, profile="standard"):
     cats = sorted({r.split("/")[0] for r in corpus})
     total_raw, total_windows, picks = 0.0, 0, {}
     for held in cats:
         train = [r for r in corpus if not r.startswith(held + "/")]
         test = [r for r in corpus if r.startswith(held + "/")]
-        fits = {k: nab_score(frames(corpus, per_k[k], train), {r: windows[r] for r in train}) for k in per_k}
+        fits = {k: nab_score(frames(corpus, per_k[k], train), {r: windows[r] for r in train}, profile) for k in per_k}
         k_best = max(fits, key=lambda k: fits[k]["score"])
         raw_score, n_win = raw_at(frames(corpus, per_k[k_best], test), {r: windows[r] for r in test},
-                                  fits[k_best]["threshold"])
+                                  fits[k_best]["threshold"], profile)
         total_raw += raw_score
         total_windows += n_win
         picks[held] = k_best
-    w = PROFILES["standard"]
+    w = PROFILES[profile]
     null, perfect = -w["fn"] * total_windows, w["tp"] * total_windows
     return 100 * (total_raw - null) / (perfect - null), picks
 
@@ -81,6 +81,12 @@ def main() -> None:
     out["nested: detector and k chosen per fold"] = {"cross_validated": cv,
                                                      "picked": {c: list(p) for c, p in picks.items()}}
     print("nested", round(cv, 1), picks, flush=True)
+    # The same nested procedure under NAB's other two profiles, for a like-for-like leaderboard
+    for profile in ("reward_low_FP_rate", "reward_low_FN_rate"):
+        cv, picks = cross_validated(corpus, windows, every, profile)
+        out["nested: detector and k chosen per fold"][f"cross_validated_{profile}"] = cv
+        out["nested: detector and k chosen per fold"][f"picked_{profile}"] = {c: list(p) for c, p in picks.items()}
+        print("nested", profile, round(cv, 1), picks, flush=True)
     Path("reports/calibration.json").write_text(json.dumps(out, indent=2, default=float))
 
 

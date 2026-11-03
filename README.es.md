@@ -120,6 +120,21 @@ que en tweets rinde mucho peor, y esa sola elección cuesta unos seis puntos. 42
 corresponde citar para el procedimiento completo; 45,3 y 49,0 son lo que logran dos detectores
 específicos elegidos a mano.
 
+El mismo procedimiento anidado con los tres perfiles de puntaje de NAB, junto a detectores
+publicados evaluados dentro de muestra:
+
+| | Estándar | Premia pocas falsas alarmas | Premia pocas omisiones |
+|---|---|---|---|
+| **Este repositorio, validación cruzada anidada** | **42,8** | **28,7** | **55,4** |
+| windowedGaussian (publicado) | 39,6 | 20,9 | 47,4 |
+| randomCutForest (publicado) | 51,7 | 38,4 | 59,7 |
+| Numenta HTM (publicado) | 70,1 | 63,1 | 74,3 |
+| ARTime (publicado) | 74,9 | 65,2 | 80,4 |
+
+Supera al baseline gaussiano en los tres perfiles y queda lejos de los líderes publicados; la
+brecha es mayor cuando las falsas alarmas cuestan más, porque el reporte de inicio igual dispara en
+cada nueva excursión de las series ruidosas.
+
 ## Método
 
 ```

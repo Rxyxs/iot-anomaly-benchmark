@@ -97,7 +97,7 @@
 <h2><span class="num">04</span>A per-series threshold, tested</h2>
 <figure>
   <img src="img/calibration.png" alt="Grouped bars for four detectors: Gaussian 44.6 in-sample, 30.4 cross-validated, 29.3 known-cause; Gaussian with calibration 46.2, 45.3, 49.7; seasonal 49.5, 42.4, 27.1; seasonal with calibration 49.1, 37.4, 34.8.">
-  <figcaption>Ranking each score against its own series' history makes the Gaussian detector the best honest number (45.3, same setting in every fold) and lifts the known-cause series from 29 to 50. It hurts the seasonal detector, which is already scaled per series, and still misses the machine failure. The maximum of both calibrated detectors scores 49.0; choosing the detector inside each fold as well (dashed line) gives the honest 42.8.</figcaption>
+  <figcaption>Ranking each score against its own series' history makes the Gaussian detector the best honest number (45.3, same setting in every fold) and lifts the known-cause series from 29 to 50. It hurts the seasonal detector, which is already scaled per series, and still misses the machine failure. The maximum of both calibrated detectors scores 49.0; choosing the detector inside each fold as well (dashed line) gives the honest 42.8. Under NAB's other two profiles the same nested procedure scores 28.7 (reward low FP) and 55.4 (reward low FN), above windowedGaussian's 20.9 and 47.4.</figcaption>
 </figure>
 
 <footer>

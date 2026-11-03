@@ -17,7 +17,9 @@ mueve el puntaje.
 
 | | Puntaje NAB estándar |
 |---|---|
-| **Gaussiano + calibración por serie + reporte de inicio, con validación cruzada** | **45,3** |
+| **Todo el procedimiento con validación cruzada: detector, k y umbral elegidos sin la categoría evaluada** | **42,8** |
+| Máximo del gaussiano y el estacional calibrados + reporte de inicio, con validación cruzada (detector fijado después de ver los resultados) | 49,0 |
+| Gaussiano + calibración por serie + reporte de inicio, con validación cruzada (misma salvedad) | 45,3 |
 | Residuo estacional + reporte de inicio, con validación cruzada | 42,4 |
 | Residuo estacional, con parámetros y umbral elegidos sobre todo el corpus (la convención de NAB) | 49,5 |
 | Baseline publicado `windowedGaussian` | 39,6 |
@@ -95,6 +97,7 @@ este equipo". Evaluado igual que antes:
 | **Gaussiano + calibración por serie** | 46,2 | **45,3** | **49,7** |
 | Estacional | 49,5 | 42,4 | 27,1 |
 | Estacional + calibración por serie | 49,1 | 37,4 | 34,8 |
+| Máximo de ambos calibrados | 52,4 | 49,0 | 47,5 |
 
 La calibración rescata al detector gaussiano: sube 15 puntos con validación cruzada, elige el mismo
 k = 400 en los siete pliegues y casi no hay brecha entre dentro de muestra y validación cruzada, lo
@@ -106,6 +109,16 @@ Tampoco rescata la serie de temperatura de la máquina: ahí los detectores cali
 cuatro ventanas, con 21 a 27 falsas alarmas. La calibración arregla el problema de *escala* entre
 equipos; no arregla un detector cuyos puntajes en períodos normales se parecen a los de antes de una
 falla.
+
+Tomar el máximo de los dos detectores calibrados da 49,0 con validación cruzada, otra vez con k = 400
+en todos los pliegues. Pero esa validación cruzada solo cubre k y el umbral: el *detector* se eligió
+después de ver los cinco puntajes con validación cruzada, que es ajustar sobre el test un nivel más
+arriba. Si el detector también se elige dentro de cada pliegue (cinco detectores por seis valores de
+k, validación anidada), el resultado es **42,8**. Seis de siete pliegues eligen el máximo calibrado;
+al dejar fuera los tweets, las categorías de entrenamiento prefieren el detector estacional simple,
+que en tweets rinde mucho peor, y esa sola elección cuesta unos seis puntos. 42,8 es el número que
+corresponde citar para el procedimiento completo; 45,3 y 49,0 son lo que logran dos detectores
+específicos elegidos a mano.
 
 ## Método
 

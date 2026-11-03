@@ -16,7 +16,9 @@ simple online detectors to find out what actually moves the score.
 
 | | NAB standard score |
 |---|---|
-| **Gaussian + per-series calibration + onset reporting, cross-validated** | **45.3** |
+| **Whole pipeline cross-validated: detector, k and threshold all chosen without the scored category** | **42.8** |
+| Max of calibrated Gaussian and seasonal + onset, cross-validated (detector fixed after seeing the results) | 49.0 |
+| Gaussian + per-series calibration + onset, cross-validated (same caveat) | 45.3 |
 | Seasonal residual + onset reporting, cross-validated | 42.4 |
 | Seasonal residual, settings and threshold chosen on the whole corpus (the NAB convention) | 49.5 |
 | Published `windowedGaussian` baseline | 39.6 |
@@ -90,6 +92,7 @@ unusual reading this asset has shown" on every series. Scored the same way as ab
 | **Gaussian + per-series calibration** | 46.2 | **45.3** | **49.7** |
 | Seasonal | 49.5 | 42.4 | 27.1 |
 | Seasonal + per-series calibration | 49.1 | 37.4 | 34.8 |
+| Max of both calibrated | 52.4 | 49.0 | 47.5 |
 
 Calibration rescues the Gaussian detector: cross-validated score up 15 points, the same k = 400
 picked in all seven folds, and almost no gap between in-sample and cross-validated, which makes it
@@ -101,6 +104,15 @@ It does not rescue the machine-temperature series itself: the calibrated detecto
 four windows there, with 21 to 27 false alarms. Calibration fixes the *scale* problem across
 assets; it cannot fix a detector whose scores in normal periods look like its scores before a
 failure.
+
+Taking the maximum of the two calibrated detectors scores 49.0 cross-validated, again with k = 400 in
+every fold. But that cross-validation only covers k and the threshold: the *detector* was chosen
+after seeing all five cross-validated scores, which is tuning on the test set one level up. Choosing
+the detector inside each fold too (five detectors by six values of k, nested) gives **42.8**. Six of
+seven folds pick the calibrated maximum; holding out the tweets, the training categories prefer the
+plain seasonal detector, which does much worse on tweets, and that single choice costs about six
+points. 42.8 is the number to quote for the whole procedure; 45.3 and 49.0 are what two specific,
+hand-picked detectors score.
 
 ## Method
 

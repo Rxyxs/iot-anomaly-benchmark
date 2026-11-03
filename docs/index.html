@@ -71,14 +71,14 @@
   <div class="stats">
     <div class="stat"><b>9 / 9</b><span>published NAB results reproduced exactly by the scorer</span></div>
     <div class="stat"><b>2.4 &rarr; 41.0</b><span>seasonal detector once it reports only onsets</span></div>
-    <div class="stat"><b>45.3</b><span>cross-validated score with per-series calibration (seasonal: 42.4)</span></div>
+    <div class="stat"><b>42.8</b><span>whole pipeline cross-validated, detector included (49.0 for the best detector picked by hand)</span></div>
     <div class="stat"><b>27 &rarr; 50</b><span>known-cause series, single threshold vs per-series calibration</span></div>
   </div>
 </header>
 
 <h2><span class="num">01</span>Where it lands</h2>
 <figure>
-  <img src="img/leaderboard.png" alt="Horizontal bar chart of NAB standard scores: published detectors from expose 16.4 to ARTime 74.9, with this repo at 49.5 in-sample, 42.4 and 45.3 cross-validated, all above windowedGaussian 39.6.">
+  <img src="img/leaderboard.png" alt="Horizontal bar chart of NAB standard scores: published detectors from expose 16.4 to ARTime 74.9, with this repo at 49.5 in-sample, 42.4 cross-validated and 42.8 with the detector also chosen inside each fold, all above windowedGaussian 39.6.">
   <figcaption>Published detectors (grey) and this repo (red). The cross-validated score chooses settings and threshold without the data it scores; most published numbers do not.</figcaption>
 </figure>
 
@@ -97,7 +97,7 @@
 <h2><span class="num">04</span>A per-series threshold, tested</h2>
 <figure>
   <img src="img/calibration.png" alt="Grouped bars for four detectors: Gaussian 44.6 in-sample, 30.4 cross-validated, 29.3 known-cause; Gaussian with calibration 46.2, 45.3, 49.7; seasonal 49.5, 42.4, 27.1; seasonal with calibration 49.1, 37.4, 34.8.">
-  <figcaption>Ranking each score against its own series' history makes the Gaussian detector the best honest number (45.3, same setting in every fold) and lifts the known-cause series from 29 to 50. It hurts the seasonal detector, which is already scaled per series, and still misses the machine failure.</figcaption>
+  <figcaption>Ranking each score against its own series' history makes the Gaussian detector the best honest number (45.3, same setting in every fold) and lifts the known-cause series from 29 to 50. It hurts the seasonal detector, which is already scaled per series, and still misses the machine failure. The maximum of both calibrated detectors scores 49.0; choosing the detector inside each fold as well (dashed line) gives the honest 42.8.</figcaption>
 </figure>
 
 <footer>

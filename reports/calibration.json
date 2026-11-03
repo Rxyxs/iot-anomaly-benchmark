@@ -122,5 +122,69 @@
       "realTraffic": 49.9706940471076,
       "realTweets": 74.25345818363789
     }
+  },
+  "max(calibrated gaussian, calibrated seasonal) + onset": {
+    "in_sample_by_k": {
+      "25": 49.44604556957345,
+      "50": 49.94362783683139,
+      "100": 50.275524388555525,
+      "200": 50.94081996570462,
+      "400": 52.37529743927095,
+      "800": 49.843346954081106
+    },
+    "best_in_sample": 52.37529743927095,
+    "k_in_sample": 400,
+    "threshold": 0.9986737400530504,
+    "cross_validated": 48.99467149534755,
+    "k_picked": {
+      "artificialNoAnomaly": 400,
+      "artificialWithAnomaly": 400,
+      "realAWSCloudwatch": 400,
+      "realAdExchange": 400,
+      "realKnownCause": 400,
+      "realTraffic": 400,
+      "realTweets": 400
+    },
+    "by_category": {
+      "artificialWithAnomaly": 77.3045719336318,
+      "realAWSCloudwatch": 50.232690150670834,
+      "realAdExchange": 48.46041834136175,
+      "realKnownCause": 47.46810559533206,
+      "realTraffic": 45.20282466239416,
+      "realTweets": 72.58577794424703
+    }
+  },
+  "nested: detector and k chosen per fold": {
+    "cross_validated": 42.782881522742755,
+    "picked": {
+      "artificialNoAnomaly": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "artificialWithAnomaly": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realAWSCloudwatch": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realAdExchange": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realKnownCause": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realTraffic": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realTweets": [
+        "seasonal + onset",
+        400
+      ]
+    }
   }
 }

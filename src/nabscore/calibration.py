@@ -1,8 +1,9 @@
 """Corpus threshold vs per-series calibration, in-sample and leave-one-category-out.
 
-Same raw scores and onset reporting as crossval.py; the only change is whether the
-scores are ranked against each series' own history (detectors.calibrate) before the
-single NAB threshold is applied.
+Same raw scores and onset reporting as crossval.py; the change is whether the scores are
+ranked against each series' own history (detectors.calibrate) before the single NAB
+threshold is applied. A last, nested run also chooses the detector inside each fold, since
+picking the best of several detectors after seeing their scores is tuning too.
 """
 from __future__ import annotations
 
@@ -18,12 +19,18 @@ from .run import load_corpus
 from .scoring import PROFILES, load_windows, nab_score, raw_at
 
 
-def scores(raw, det, k, calibrated):
-    out = {}
-    for r, v in raw.items():
-        s = D.squash(v[det])
-        out[r] = D.onset(D.calibrate(s) if calibrated else s, k)
-    return out
+def candidates(raw):
+    """Base scores (before onset) for every detector compared here."""
+    sq = {det: {r: D.squash(v[det]) for r, v in raw.items()} for det in ("gaussian", "seasonal")}
+    cal = {det: {r: D.calibrate(s) for r, s in sq[det].items()} for det in sq}
+    return {
+        "gaussian + onset": sq["gaussian"],
+        "gaussian + per-series calibration + onset": cal["gaussian"],
+        "seasonal + onset": sq["seasonal"],
+        "seasonal + per-series calibration + onset": cal["seasonal"],
+        "max(calibrated gaussian, calibrated seasonal) + onset":
+            {r: np.maximum(cal["gaussian"][r], cal["seasonal"][r]) for r in raw},
+    }
 
 
 def cross_validated(corpus, windows, per_k):
@@ -57,19 +64,23 @@ def main() -> None:
     windows = load_windows()
     corpus = load_corpus(windows)
     raw = pickle.loads(Path("data/cache/raw.pkl").read_bytes())
-    out = {}
-    for det in ("gaussian", "seasonal"):
-        for calibrated in (False, True):
-            name = f"{det} + {'per-series calibration + ' if calibrated else ''}onset"
-            per_k = {k: scores(raw, det, k, calibrated) for k in K_GRID}
-            fits = {k: nab_score(frames(corpus, per_k[k], corpus), windows) for k in K_GRID}
-            k_in = max(fits, key=lambda k: fits[k]["score"])
-            cv, picks = cross_validated(corpus, windows, per_k)
-            out[name] = {"in_sample_by_k": {k: f["score"] for k, f in fits.items()}, "best_in_sample": fits[k_in]["score"],
-                         "k_in_sample": k_in, "threshold": fits[k_in]["threshold"], "cross_validated": cv,
-                         "k_picked": picks, "by_category": by_category(corpus, windows, per_k[k_in])}
-            print(name, round(fits[k_in]["score"], 1), f"k={k_in}", "CV", round(cv, 1), picks,
-                  {c: round(v, 1) for c, v in out[name]["by_category"].items()}, flush=True)
+    out, every = {}, {}
+    for name, base in candidates(raw).items():
+        per_k = {k: {r: D.onset(base[r], k) for r in corpus} for k in K_GRID}
+        every.update({(name, k): s for k, s in per_k.items()})
+        fits = {k: nab_score(frames(corpus, per_k[k], corpus), windows) for k in K_GRID}
+        k_in = max(fits, key=lambda k: fits[k]["score"])
+        cv, picks = cross_validated(corpus, windows, per_k)
+        out[name] = {"in_sample_by_k": {k: f["score"] for k, f in fits.items()}, "best_in_sample": fits[k_in]["score"],
+                     "k_in_sample": k_in, "threshold": fits[k_in]["threshold"], "cross_validated": cv,
+                     "k_picked": picks, "by_category": by_category(corpus, windows, per_k[k_in])}
+        print(name, round(fits[k_in]["score"], 1), f"k={k_in}", "CV", round(cv, 1), picks,
+              {c: round(v, 1) for c, v in out[name]["by_category"].items()}, flush=True)
+    # Nested: the detector itself is also chosen on the training categories of each fold
+    cv, picks = cross_validated(corpus, windows, every)
+    out["nested: detector and k chosen per fold"] = {"cross_validated": cv,
+                                                     "picked": {c: list(p) for c, p in picks.items()}}
+    print("nested", round(cv, 1), picks, flush=True)
     Path("reports/calibration.json").write_text(json.dumps(out, indent=2, default=float))
 
 

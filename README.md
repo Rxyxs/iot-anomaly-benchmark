@@ -114,6 +114,21 @@ plain seasonal detector, which does much worse on tweets, and that single choice
 points. 42.8 is the number to quote for the whole procedure; 45.3 and 49.0 are what two specific,
 hand-picked detectors score.
 
+The same nested procedure under NAB's three scoring profiles, next to published detectors scored
+in-sample:
+
+| | Standard | Reward low FP | Reward low FN |
+|---|---|---|---|
+| **This repo, nested cross-validation** | **42.8** | **28.7** | **55.4** |
+| windowedGaussian (published) | 39.6 | 20.9 | 47.4 |
+| randomCutForest (published) | 51.7 | 38.4 | 59.7 |
+| Numenta HTM (published) | 70.1 | 63.1 | 74.3 |
+| ARTime (published) | 74.9 | 65.2 | 80.4 |
+
+It beats the Gaussian baseline on all three profiles and stays well behind the published leaders;
+the gap is widest when false alarms cost more, because onset reporting still fires on every new
+excursion in noisy series.
+
 ## Method
 
 ```

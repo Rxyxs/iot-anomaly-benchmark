@@ -185,6 +185,68 @@
         "seasonal + onset",
         400
       ]
+    },
+    "cross_validated_reward_low_FP_rate": 28.712511334777187,
+    "picked_reward_low_FP_rate": {
+      "artificialNoAnomaly": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "artificialWithAnomaly": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realAWSCloudwatch": [
+        "seasonal + per-series calibration + onset",
+        400
+      ],
+      "realAdExchange": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realKnownCause": [
+        "seasonal + onset",
+        400
+      ],
+      "realTraffic": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realTweets": [
+        "seasonal + onset",
+        800
+      ]
+    },
+    "cross_validated_reward_low_FN_rate": 55.42430762560876,
+    "picked_reward_low_FN_rate": {
+      "artificialNoAnomaly": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "artificialWithAnomaly": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realAWSCloudwatch": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realAdExchange": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realKnownCause": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realTraffic": [
+        "max(calibrated gaussian, calibrated seasonal) + onset",
+        400
+      ],
+      "realTweets": [
+        "seasonal + onset",
+        400
+      ]
     }
   }
 }
